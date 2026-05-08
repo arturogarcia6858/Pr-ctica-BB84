@@ -1,0 +1,28 @@
+Kali - 192.168.118.132
+Bob - 192.168.118.137
+Alice - 192.168.118.136
+
+sudo iptables -t mangle -F
+sudo sysctl -w net.ipv4.ip_forward=1
+sudo iptables -t mangle -A PREROUTING -p tcp --dport 5000 -j NFQUEUE --queue-num 1
+sudo sysctl -w net.ipv4.conf.all.send_redirects=0
+sudo sysctl -w net.ipv4.conf.default.send_redirects=0
+sudo sysctl -w net.ipv4.conf.eth0.send_redirects=0
+sudo iptables -P FORWARD ACCEPT
+
+sudo iptables -t mangle -F
+sudo sysctl -w net.ipv4.ip_forward=0
+
+
+en Raspberries (Bob y Alice)
+
+arp -a 
+ping -c 4 x.x.x.x
+
+def configurar_sistema():
+    print("Configurando reenvío y reglas de firewall")
+    os.system("sysctl -w net.ipv4.ip_forward=1 > /dev/null")
+    os.system("sysctl -w net.ipv4.conf.all.send_redirects=0 > /dev/null")
+    os.system("sysctl -w net.ipv4.conf.eth0.send_redirects=0 > /dev/null")
+    os.system("iptables -F -t mangle")
+    os.system("iptables -t mangle -A FORWARD -p tcp --dport 5000 -j NFQUEUE --queue-num 1")
