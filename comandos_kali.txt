@@ -26,3 +26,9 @@ def configurar_sistema():
     os.system("sysctl -w net.ipv4.conf.eth0.send_redirects=0 > /dev/null")
     os.system("iptables -F -t mangle")
     os.system("iptables -t mangle -A FORWARD -p tcp --dport 5000 -j NFQUEUE --queue-num 1")
+
+
+Parte 2 usando Amazon Braket SDK (simulado localmente)
+ intalar librería 
+
+    python3 -m pip install amazon-braket-sdk
